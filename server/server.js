@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import { apiLimiter } from './middleware/rateLimitMiddleware.js';
 import helmet from 'helmet';
-import xss from 'xss-clean';
 import cookieParser from 'cookie-parser';
 
 // Route files
@@ -57,25 +56,39 @@ app.use(express.urlencoded({ extended: true }));
 // Cookie parser
 app.use(cookieParser());
 
-// Sanitize data to prevent NoSQL injection (Express 5 compatible)
+// Sanitize data to prevent NoSQL injection and XSS (Express 5 compatible)
 app.use((req, res, next) => {
   const sanitize = (obj) => {
     if (obj && typeof obj === 'object') {
       for (const key of Object.keys(obj)) {
+        // NoSQL Injection protection
         if (key.startsWith('$') || key.includes('.')) {
           delete obj[key];
-        } else {
-          sanitize(obj[key]);
+          continue;
+        }
+        
+        const value = obj[key];
+        if (typeof value === 'string') {
+          // Simple XSS protection (basic escaping/removal)
+          obj[key] = value
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;')
+            .replace(/\//g, '&#x2F;');
+        } else if (typeof value === 'object') {
+          sanitize(value);
         }
       }
     }
   };
+  
   if (req.body) sanitize(req.body);
+  if (req.query) sanitize(req.query);
+  if (req.params) sanitize(req.params);
+  
   next();
 });
-
-// Prevent XSS attacks
-app.use(xss());
 
 // CORS
 app.use(cors({
