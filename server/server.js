@@ -58,8 +58,22 @@ app.use(express.urlencoded({ extended: true }));
 // Cookie parser
 app.use(cookieParser());
 
-// Sanitize data to prevent NoSQL injection
-app.use(mongoSanitize());
+// Sanitize data to prevent NoSQL injection (Express 5 compatible)
+app.use((req, res, next) => {
+  const sanitize = (obj) => {
+    if (obj && typeof obj === 'object') {
+      for (const key of Object.keys(obj)) {
+        if (key.startsWith('$') || key.includes('.')) {
+          delete obj[key];
+        } else {
+          sanitize(obj[key]);
+        }
+      }
+    }
+  };
+  if (req.body) sanitize(req.body);
+  next();
+});
 
 // Prevent XSS attacks
 app.use(xss());
