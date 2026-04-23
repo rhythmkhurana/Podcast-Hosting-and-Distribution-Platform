@@ -6,6 +6,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Settings, X, Load
 import api from '../../api/axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 const GlobalAudioPlayer = () => {
   const audioRef = useRef(null);
@@ -50,9 +51,7 @@ const GlobalAudioPlayer = () => {
     const audio = audioRef.current;
     if (!currentEpisode || !audio) return;
 
-    const src = currentEpisode.audioFile.startsWith('http')
-      ? currentEpisode.audioFile
-      : `http://localhost:5000${currentEpisode.audioFile}`;
+    const src = getMediaUrl(currentEpisode.audioFile);
 
     // Pause whatever was playing before
     audio.pause();

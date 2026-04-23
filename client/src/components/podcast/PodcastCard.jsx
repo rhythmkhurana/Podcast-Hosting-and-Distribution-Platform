@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PlayCircle, Users } from 'lucide-react';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 const PodcastCard = ({ podcast }) => {
   return (
     <div className="group relative bg-surface border border-white/5 rounded-xl overflow-hidden hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(245,166,35,0.15)] transition-all duration-300">
       <div className="aspect-square w-full relative overflow-hidden">
         <img 
-          src={podcast.coverImage.startsWith('http') ? podcast.coverImage : `http://localhost:5000${podcast.coverImage}`} 
+          src={getMediaUrl(podcast.coverImage)}
           alt={podcast.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => { e.target.src = 'https://via.placeholder.com/400x400/1A1A1A/F5A623?text=WavCast' }}

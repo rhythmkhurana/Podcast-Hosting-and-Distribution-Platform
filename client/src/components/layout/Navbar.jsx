@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import { Mic, Search, User, LogOut, LayoutDashboard, Home as HomeIcon } from 'lucide-react';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
@@ -52,7 +53,7 @@ const Navbar = () => {
             <div className="relative group cursor-pointer">
               <div className="flex items-center gap-2">
                 <img 
-                  src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                  src={getMediaUrl(user.avatar)}
                   alt="avatar" 
                   className="w-8 h-8 rounded-full object-cover border border-white/20"
                   onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + user.name + '&background=random' }}
