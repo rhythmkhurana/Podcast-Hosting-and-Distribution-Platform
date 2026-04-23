@@ -6,6 +6,7 @@ import { getMySubscriptions } from '../api/subscriptionApi';
 import PodcastCard from '../components/podcast/PodcastCard';
 import { Settings, Save, Mic, ArrowRight, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import getMediaUrl from '../utils/getMediaUrl';
 
 const Profile = () => {
   const { user, becomeCreator } = useAuthStore();
@@ -46,7 +47,7 @@ const Profile = () => {
         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-end mt-12">
           <div className="relative">
             <img 
-              src={user?.avatar?.startsWith('http') ? user.avatar : `http://localhost:5000${user?.avatar}`} 
+              src={getMediaUrl(user?.avatar)} 
               alt={user?.name}
               className="w-32 h-32 rounded-2xl border-4 border-surface object-cover bg-surface"
               onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.name || 'User') + '&background=F5A623&color=000' }}

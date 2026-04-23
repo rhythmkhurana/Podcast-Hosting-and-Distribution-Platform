@@ -3,6 +3,7 @@ import { X, Upload, Music, Image as ImageIcon, CheckCircle2, AlertCircle, ArrowR
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createEpisode } from '../../api/episodeApi';
+import getMediaUrl from '../../utils/getMediaUrl';
 
 const UploadEpisodeModal = ({ isOpen, onClose, podcasts }) => {
   const queryClient = useQueryClient();
@@ -152,7 +153,7 @@ const UploadEpisodeModal = ({ isOpen, onClose, podcasts }) => {
                                   : 'bg-white/5 border-white/5 hover:border-white/20'
                               }`}
                             >
-                              <img src={p.coverImage.startsWith('http') ? p.coverImage : `http://localhost:5000${p.coverImage}`} className="w-10 h-10 rounded-lg object-cover" />
+                              <img src={getMediaUrl(p.coverImage)} className="w-10 h-10 rounded-lg object-cover" />
                               <span className="text-xs font-bold truncate">{p.title}</span>
                             </button>
                           ))}

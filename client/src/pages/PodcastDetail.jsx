@@ -8,6 +8,7 @@ import EpisodeRow from '../components/podcast/EpisodeRow';
 import UploadEpisodeModal from '../components/dashboard/UploadEpisodeModal';
 import { Heart, Globe, Play, Users, Hash, Upload } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import getMediaUrl from '../utils/getMediaUrl';
 
 const PodcastDetail = () => {
   const { id } = useParams();
@@ -66,7 +67,7 @@ const PodcastDetail = () => {
     return <div className="text-center py-20 text-xl font-display text-textMuted">Podcast not found.</div>;
   }
 
-  const coverUrl = podcast.coverImage.startsWith('http') ? podcast.coverImage : `http://localhost:5000${podcast.coverImage}`;
+  const coverUrl = getMediaUrl(podcast.coverImage);
 
   return (
     <div className="-mt-8 pb-20">
@@ -111,7 +112,7 @@ const PodcastDetail = () => {
               <div className="flex flex-wrap items-center gap-6 text-sm text-textMuted font-medium mb-6">
                 <span className="flex items-center gap-2 text-white">
                   <img 
-                    src={podcast.author.avatar.startsWith('http') ? podcast.author.avatar : `http://localhost:5000${podcast.author.avatar}`} 
+                    src={getMediaUrl(podcast.author.avatar)} 
                     className="w-6 h-6 rounded-full object-cover"
                     alt={podcast.author.name}
                   />
@@ -217,7 +218,7 @@ const PodcastDetail = () => {
             <h3 className="text-xl font-display tracking-wide mb-4">Meet the Host</h3>
             <div className="flex items-center gap-4">
               <img 
-                src={podcast.author.avatar.startsWith('http') ? podcast.author.avatar : `http://localhost:5000${podcast.author.avatar}`} 
+                src={getMediaUrl(podcast.author.avatar)} 
                 className="w-14 h-14 rounded-full object-cover border border-white/10"
                 alt={podcast.author.name}
               />

@@ -6,6 +6,7 @@ import useAuthStore from '../store/authStore';
 import PodcastCard from '../components/podcast/PodcastCard';
 import { motion } from 'framer-motion';
 import { Play, Mic } from 'lucide-react';
+import getMediaUrl from '../utils/getMediaUrl';
 
 const CATEGORIES = [
   'Technology', 'True Crime', 'Education', 'Comedy', 
@@ -136,7 +137,7 @@ const Home = () => {
                 
                 <div className="flex items-center gap-4 mb-8">
                   <img 
-                    src={featuredCreator.author.avatar.startsWith('http') ? featuredCreator.author.avatar : `http://localhost:5000${featuredCreator.author.avatar}`} 
+                    src={getMediaUrl(featuredCreator.author.avatar)} 
                     alt={featuredCreator.author.name}
                     className="w-16 h-16 rounded-full border-2 border-secondary object-cover"
                     onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=' + featuredCreator.author.name + '&background=random' }}
@@ -157,7 +158,7 @@ const Home = () => {
               
               <div className="md:w-1/2 relative min-h-[400px]">
                 <img 
-                  src={featuredCreator.coverImage.startsWith('http') ? featuredCreator.coverImage : `http://localhost:5000${featuredCreator.coverImage}`} 
+                  src={getMediaUrl(featuredCreator.coverImage)} 
                   alt={featuredCreator.title}
                   className="absolute inset-0 w-full h-full object-cover"
                   onError={(e) => { e.target.src = 'https://via.placeholder.com/800x800/1A1A1A/00D4C8?text=Featured' }}

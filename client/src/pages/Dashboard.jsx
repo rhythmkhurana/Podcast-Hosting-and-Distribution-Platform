@@ -4,6 +4,7 @@ import { getMyPodcasts, deletePodcast } from '../api/podcastApi';
 import { deleteEpisode } from '../api/episodeApi';
 import { LayoutDashboard, Mic, PlaySquare, BarChart3, Plus, Upload, Trash2, Edit2, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import getMediaUrl from '../utils/getMediaUrl';
 import usePlayerStore from '../store/playerStore';
 import CreatePodcastModal from '../components/dashboard/CreatePodcastModal';
 import UploadEpisodeModal from '../components/dashboard/UploadEpisodeModal';
@@ -67,7 +68,7 @@ const PodcastsTab = ({ podcasts, onNewPodcast, onDeletePodcast }) => {
           podcasts?.map(podcast => (
             <div key={podcast._id} className="glass-panel p-4 rounded-xl flex flex-col md:flex-row items-center gap-4 group">
               <img 
-                src={podcast.coverImage.startsWith('http') ? podcast.coverImage : `http://localhost:5000${podcast.coverImage}`} 
+                src={getMediaUrl(podcast.coverImage)} 
                 alt={podcast.title} 
                 className="w-20 h-20 md:w-16 md:h-16 rounded-lg object-cover shadow-lg"
               />
