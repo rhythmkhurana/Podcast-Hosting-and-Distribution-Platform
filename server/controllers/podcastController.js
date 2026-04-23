@@ -127,10 +127,10 @@ export const createPodcast = async (req, res, next) => {
       isExplicit,
       coverImage,
       author: req.user.id,
-      rssUrl: `${process.env.CLIENT_URL}/api/podcasts/temp/rss`, // Temp, will update with real ID
+      rssUrl: `${process.env.BACKEND_URL}/api/podcasts/temp/rss`, // Temp, will update with real ID
     });
 
-    podcast.rssUrl = `${process.env.CLIENT_URL}/api/podcasts/${podcast._id}/rss`;
+    podcast.rssUrl = `${process.env.BACKEND_URL}/api/podcasts/${podcast._id}/rss`;
     await podcast.save();
 
     res.status(201).json({
@@ -244,9 +244,9 @@ export const generateRSS = async (req, res, next) => {
     const feed = new RSS({
       title: podcast.title,
       description: podcast.description,
-      feed_url: `${process.env.CLIENT_URL}/api/podcasts/${podcast._id}/rss`,
+      feed_url: `${process.env.BACKEND_URL}/api/podcasts/${podcast._id}/rss`,
       site_url: `${process.env.CLIENT_URL}/podcast/${podcast._id}`,
-      image_url: `${process.env.CLIENT_URL}${podcast.coverImage}`,
+      image_url: `${process.env.BACKEND_URL}${podcast.coverImage}`,
       author: podcast.author.name,
       language: podcast.language,
       pubDate: new Date().toUTCString(),
@@ -262,7 +262,7 @@ export const generateRSS = async (req, res, next) => {
         ]},
         {'itunes:image': {
           _attr: {
-            href: `${process.env.CLIENT_URL}${podcast.coverImage}`
+            href: `${process.env.BACKEND_URL}${podcast.coverImage}`
           }
         }},
         {'itunes:category': [
@@ -282,8 +282,8 @@ export const generateRSS = async (req, res, next) => {
         guid: episode._id.toString(),
         date: episode.publishedAt,
         enclosure: {
-          url: `${process.env.CLIENT_URL}${episode.audioFile}`,
-          file: `${process.env.CLIENT_URL}${episode.audioFile}`,
+          url: `${process.env.BACKEND_URL}${episode.audioFile}`,
+          file: `${process.env.BACKEND_URL}${episode.audioFile}`,
           size: episode.fileSize || 0,
           type: 'audio/mpeg'
         },
