@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import { apiLimiter } from './middleware/rateLimitMiddleware.js';
 import helmet from 'helmet';
-import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import cookieParser from 'cookie-parser';
 
